@@ -16,7 +16,7 @@ pipeline {
         stage('building docker image') {
             steps {
                 echo "Building docker image using Dockerfile"
-                sh "docker build -t microdegree:latest ."
+                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
             }
         }
 
