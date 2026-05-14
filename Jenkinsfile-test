@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        IMAGE_NAME = "janakinath6/microdegree"
+        IMAGE_TAG = "latest"
+    }
 
     stages {
 
@@ -16,14 +20,15 @@ pipeline {
             }
         }
 
-        stage('pushing docker image to dockerhub') {
+        stage("pushing docker image to dockerhub") {
             steps {
-                echo "Pushing docker image to dockerhub"
-            }
-        }
-        stage('Deploying Docker Containers'){
-            steps {
-                echo "Deploying docker containers using docker compose"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',usernameVariable: 'DOCKER_USER',passwordVariable: 'DOCKER_PASS')]) {
+                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+
+                    //sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} $DOCKER_USER/${IMAGE_NAME}:${IMAGE_TAG}"
+
+                   sh "docker push $IMAGE_NAME:$IMAGE_TAG"
+                }
             }
         }
     }
