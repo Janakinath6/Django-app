@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = "janakinath6/microdegree"
+        IMAGE_NAME = "janakinath6/microdegre"
         IMAGE_TAG = "latest"
     }
 
