@@ -36,7 +36,10 @@ pipeline {
                 sh '''
                     docker pull $IMAGE_NAME:$IMAGE_TAG
                     echo "Deploying the application to EC2 instance"
-                    docker run -d -p 8000:8000 $IMAGE_NAME:$IMAGE_TAG
+                    docker stop microdegree || true
+                    docker rm microdegree || true
+
+                    docker run -d --name microdegree -p 8000:8000 $IMAGE_NAME:$IMAGE_TAG
                     
                 '''
                 
